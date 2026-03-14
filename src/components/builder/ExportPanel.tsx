@@ -4,6 +4,8 @@ import { useState } from "react";
 import type { DesignSystemState } from "@/lib/builder/types";
 import { toJSON, toCSS, toTailwind, toTokensStudio } from "@/lib/builder/formatters";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { Button } from "@/components/ui/button";
+import { BuilderPanel } from "./BuilderPanel";
 
 interface ExportPanelProps {
   state: DesignSystemState;
@@ -11,6 +13,11 @@ interface ExportPanelProps {
 }
 
 const EXPORT_TABS = ["JSON", "CSS", "Tailwind", "Tokens Studio"] as const;
+
+const tabBaseClass =
+  "px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2";
+const tabActiveClass = "border-b-2 border-[var(--color-accent)] text-[var(--color-text)]";
+const tabInactiveClass = "text-[var(--color-text-muted)] hover:text-[var(--color-text)]";
 
 export function ExportPanel({ state, onReset }: ExportPanelProps) {
   const [tab, setTab] = useState<(typeof EXPORT_TABS)[number]>("JSON");
@@ -59,46 +66,40 @@ export function ExportPanel({ state, onReset }: ExportPanelProps) {
 
   const content = getContent();
 
+  const header = (
+    <div className="flex">
+      {EXPORT_TABS.map((t) => (
+        <button
+          key={t}
+          type="button"
+          onClick={() => setTab(t)}
+          className={`${tabBaseClass} ${tab === t ? tabActiveClass : tabInactiveClass}`}
+        >
+          {t}
+        </button>
+      ))}
+    </div>
+  );
+
+  const footer = (
+    <div className="flex flex-wrap gap-2">
+      <CopyButton text={content} label="Copy" />
+      <Button type="button" variant="outline" size="sm" onClick={download}>
+        Download
+      </Button>
+      <Button type="button" variant="ghost" size="sm" onClick={onReset} className="text-[var(--color-text-muted)]">
+        Reset
+      </Button>
+    </div>
+  );
+
   return (
-    <aside className="flex flex-col rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] dark:bg-[var(--color-surface-elevated)]">
-      <div className="flex border-b border-[var(--color-border)]">
-        {EXPORT_TABS.map((t) => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => setTab(t)}
-            className={`px-3 py-2 text-xs font-medium transition-colors ${
-              tab === t
-                ? "border-b-2 border-[var(--color-accent)] text-[var(--color-text)]"
-                : "text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300"
-            }`}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
-      <div className="flex-1 overflow-auto p-3">
-        <pre className="whitespace-pre-wrap break-words font-mono text-[10px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+    <BuilderPanel header={header} footer={footer} className="min-h-[420px]">
+      <div className="min-h-[280px] overflow-auto">
+        <pre className="whitespace-pre-wrap break-words font-mono text-xs leading-relaxed text-[var(--color-text-muted)]">
           {content}
         </pre>
       </div>
-      <div className="flex flex-wrap gap-2 border-t border-[var(--color-border)] p-3">
-        <CopyButton text={content} label="Copy" />
-        <button
-          type="button"
-          onClick={download}
-          className="rounded border border-[var(--color-border)] px-3 py-1.5 text-xs font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800"
-        >
-          Download
-        </button>
-        <button
-          type="button"
-          onClick={onReset}
-          className="rounded border border-[var(--color-border)] px-3 py-1.5 text-xs font-medium text-neutral-500 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800"
-        >
-          Reset
-        </button>
-      </div>
-    </aside>
+    </BuilderPanel>
   );
 }

@@ -37,9 +37,16 @@ export function ToolCard({ tool }: ToolCardProps) {
       <Link href={`/tools/${tool.slug}`} className="flex flex-1 flex-col">
         <ToolPreviewBlock tool={tool} className="transition-transform duration-300 group-hover:scale-[1.02]" />
         <div className="flex flex-1 flex-col gap-2 p-4">
-          <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
-            {tool.title}
-          </h3>
+          <div className="flex items-center gap-2">
+            <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
+              {tool.title}
+            </h3>
+            {tool.runtime?.interactionMode === "interactive" && (
+              <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-medium text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+                Interactive
+              </span>
+            )}
+          </div>
           <p className="line-clamp-1 text-sm text-neutral-500 dark:text-neutral-400">
             {tool.tagline}
           </p>

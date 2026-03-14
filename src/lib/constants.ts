@@ -39,3 +39,9 @@ export const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },
   { value: "title", label: "Title A–Z" },
 ] as const;
+
+export const INTERACTION_MODE_LABELS: Record<string, string> = {
+  static: "Copy only",
+  interactive: "Interactive",
+  builder: "Builder",
+};

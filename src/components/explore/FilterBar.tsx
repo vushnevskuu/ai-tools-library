@@ -2,23 +2,28 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { FIELD_LABELS, TASK_LABELS, FORMAT_LABELS } from "@/lib/constants";
+import { FIELD_LABELS, TASK_LABELS, FORMAT_LABELS, INTERACTION_MODE_LABELS } from "@/lib/constants";
 import { CATEGORIES } from "@/lib/constants";
 import type { Field, Task, Format } from "@/types";
+import type { InteractionMode } from "@/types/runtime";
 
 interface FilterBarProps {
   className?: string;
   /** When on category page, pass the category to show as selected */
   category?: string;
   testedWithOptions?: string[];
+  showInteractionMode?: boolean;
 }
 
-export function FilterBar({ className = "", category, testedWithOptions = [] }: FilterBarProps) {
+const INTERACTION_MODES: InteractionMode[] = ["interactive", "builder", "static"];
+
+export function FilterBar({ className = "", category, testedWithOptions = [], showInteractionMode = true }: FilterBarProps) {
   const searchParams = useSearchParams();
   const currentField = category ?? searchParams.get("field");
   const currentTask = searchParams.get("task");
   const currentFormat = searchParams.get("format");
   const currentTested = searchParams.get("tested");
+  const currentMode = searchParams.get("mode");
 
   const buildUrl = (updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -130,6 +135,38 @@ export function FilterBar({ className = "", category, testedWithOptions = [] }: 
         </div>
       </div>
 
+      {showInteractionMode && (
+        <div className="flex items-center gap-1.5">
+          <span className="text-[10px] font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+            Mode
+          </span>
+          <div className="flex flex-wrap gap-1.5">
+            <Link
+              href={buildUrl({ mode: null })}
+              className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+                !currentMode
+                  ? "bg-[var(--color-accent)] text-white dark:bg-[var(--color-accent)] dark:text-neutral-900"
+                  : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
+              }`}
+            >
+              All
+            </Link>
+            {INTERACTION_MODES.map((m) => (
+              <Link
+                key={m}
+                href={buildUrl({ mode: m })}
+                className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+                  currentMode === m
+                    ? "bg-[var(--color-accent)] text-white dark:bg-[var(--color-accent)] dark:text-neutral-900"
+                    : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
+                }`}
+              >
+                {INTERACTION_MODE_LABELS[m] ?? m}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
       {testedWithOptions.length > 0 && (
         <div className="flex items-center gap-1.5">
           <span className="text-[10px] font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500">

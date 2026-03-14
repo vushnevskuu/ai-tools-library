@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { BuilderControls } from "@/components/builder/BuilderControls";
 import { BuilderPreview } from "@/components/builder/BuilderPreview";
@@ -32,16 +33,24 @@ export default function DesignSystemBuilderPage() {
 
   return (
     <PageContainer className="py-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
+      <nav className="mb-6">
+        <Link
+          href="/builders"
+          className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text)]"
+        >
+          ← Builders
+        </Link>
+      </nav>
+      <header className="mb-[var(--space-section)]">
+        <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text)] sm:text-3xl">
           Design System Builder
         </h1>
-        <p className="mt-1 text-neutral-600 dark:text-neutral-400">
+        <p className="mt-2 text-[var(--color-text-muted)]">
           Edit tokens, preview live, export JSON, CSS, Tailwind, or Tokens Studio
         </p>
-      </div>
+      </header>
 
-      <div className="grid gap-6 lg:grid-cols-[280px_1fr_280px]">
+      <div className="grid gap-[var(--space-section)] lg:grid-cols-[280px_1fr_280px]">
         <BuilderControls state={state} onChange={handleChange} />
         <BuilderPreview state={state} />
         <ExportPanel state={state} onReset={handleReset} />

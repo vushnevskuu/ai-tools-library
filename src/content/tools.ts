@@ -16,13 +16,34 @@ export const tools: Tool[] = [
       alt: "Button hierarchy critique output example",
     },
     content: {
-      prompt: `You are a senior UI designer. Analyze this interface screenshot and provide structured critique on:
+      prompt: `You are a senior UI designer. Analyze this interface:
+
+{{interfaceDescription}}
+
+Provide structured critique on:
 1. Button hierarchy (primary vs secondary vs tertiary)
 2. CTA prominence and placement
 3. Visual weight distribution
 4. Action affordance clarity
 
 Format your response as bullet points with specific recommendations.`,
+    },
+    runtime: {
+      interactionMode: "interactive",
+      outputType: "critique",
+      previewRenderer: "critiquePanel",
+      exportFormats: ["prompt"],
+      runtimeCategory: "critique",
+      inputSchema: {
+        fields: [
+          { key: "interfaceDescription", label: "Screenshot or interface description", type: "textarea", placeholder: "Paste or describe the interface to critique...", rows: 6 },
+        ],
+      },
+      defaultInputs: { interfaceDescription: "" },
+      presets: [
+        { id: "modal", label: "Modal dialog", inputs: { interfaceDescription: "A modal dialog with primary CTA, secondary cancel, and close icon." } },
+        { id: "form", label: "Form page", inputs: { interfaceDescription: "A multi-step form with next/back buttons and submit." } },
+      ],
     },
     useCases: [
       "Pre-launch UI review",
@@ -54,12 +75,33 @@ Format your response as bullet points with specific recommendations.`,
       alt: "Color contrast improvement",
     },
     content: {
-      prompt: `You are an accessibility specialist. Given these hex color values, analyze:
+      prompt: `You are an accessibility specialist. Given these hex color values:
+
+{{colorValues}}
+
+Analyze:
 1. Contrast ratios for text on background (WCAG AA/AAA)
 2. Color blindness considerations
 3. Suggested alternative values if needed
 
 Provide a table with: color pair, ratio, pass/fail, recommendation.`,
+    },
+    runtime: {
+      interactionMode: "interactive",
+      outputType: "beforeAfter",
+      previewRenderer: "beforeAfterPanel",
+      exportFormats: ["prompt"],
+      runtimeCategory: "audit",
+      inputSchema: {
+        fields: [
+          { key: "colorValues", label: "Hex color values (one per line or comma-separated)", type: "textarea", placeholder: "#000000, #ffffff\n#6366f1, #22c55e", rows: 4 },
+        ],
+      },
+      defaultInputs: { colorValues: "" },
+      presets: [
+        { id: "grayscale", label: "Grayscale", inputs: { colorValues: "#ffffff, #f5f5f5, #e5e5e5, #737373, #404040, #171717" } },
+        { id: "brand", label: "Brand primary + neutrals", inputs: { colorValues: "#6366f1, #ffffff, #f8fafc, #64748b, #0f172a" } },
+      ],
     },
     useCases: [
       "Design system compliance",
@@ -84,13 +126,30 @@ Provide a table with: color pair, ratio, pass/fail, recommendation.`,
       alt: "Spacing audit output",
     },
     content: {
-      prompt: `Analyze this layout/spacing specification. Check:
+      prompt: `Analyze this layout/spacing specification:
+
+{{layoutSpec}}
+
+Check:
 1. Consistency with 4/8px grid
 2. Token usage (if provided)
 3. Rhythm and visual hierarchy
 4. Edge cases and outliers
 
 Output as a structured report with pass/fail per section.`,
+    },
+    runtime: {
+      interactionMode: "interactive",
+      outputType: "structured",
+      previewRenderer: "structuredPanel",
+      exportFormats: ["prompt"],
+      runtimeCategory: "audit",
+      inputSchema: {
+        fields: [
+          { key: "layoutSpec", label: "Layout or spacing specification", type: "textarea", placeholder: "Paste spacing spec, token list, or describe the layout...", rows: 6 },
+        ],
+      },
+      defaultInputs: { layoutSpec: "" },
     },
     useCases: ["Design system audit", "Handoff review", "QA"],
     testedWith: ["Claude 3.5", "GPT-4"],
@@ -111,13 +170,30 @@ Output as a structured report with pass/fail per section.`,
       alt: "Brand voice guidelines output",
     },
     content: {
-      prompt: `Analyze the provided brand copy (website, ads, social). Extract:
+      prompt: `Analyze the provided brand copy:
+
+{{brandCopy}}
+
+Extract:
 1. Tone descriptors (3-5 words)
 2. Vocabulary patterns (words they use/avoid)
 3. Sentence structure preferences
 4. 5 sample voice guidelines
 
 Output as a reusable brand voice brief.`,
+    },
+    runtime: {
+      interactionMode: "interactive",
+      outputType: "structured",
+      previewRenderer: "structuredPanel",
+      exportFormats: ["prompt"],
+      runtimeCategory: "generate",
+      inputSchema: {
+        fields: [
+          { key: "brandCopy", label: "Brand copy (website, ads, social)", type: "textarea", placeholder: "Paste brand materials to analyze...", rows: 6 },
+        ],
+      },
+      defaultInputs: { brandCopy: "" },
     },
     useCases: ["Brand guidelines", "Copy consistency", "Onboarding writers"],
     testedWith: ["Claude 3.5"],
@@ -144,6 +220,24 @@ Output formats needed: {{formats}}
 Generate a resize specification table:
 | Format | Dimensions | Crop | Notes |
 For each format, specify exact px dimensions, aspect ratio, and any crop/safe zone notes.`,
+    },
+    runtime: {
+      interactionMode: "interactive",
+      outputType: "resizeSet",
+      previewRenderer: "resizeArtboards",
+      exportFormats: ["prompt"],
+      runtimeCategory: "transform",
+      inputSchema: {
+        fields: [
+          { key: "sourceDimensions", label: "Source dimensions", type: "text", placeholder: "e.g. 1920×1080" },
+          { key: "formats", label: "Output formats needed", type: "text", placeholder: "e.g. Instagram, LinkedIn, Print A4" },
+        ],
+      },
+      defaultInputs: { sourceDimensions: "1920×1080", formats: "Instagram Square, Instagram Story, LinkedIn Banner" },
+      presets: [
+        { id: "social", label: "Social", inputs: { sourceDimensions: "1920×1080", formats: "Instagram Square (1080×1080), Instagram Story (1080×1920), LinkedIn (1200×627)" } },
+        { id: "print", label: "Print", inputs: { sourceDimensions: "3000×4000", formats: "A4, A5, Business card" } },
+      ],
     },
     useCases: ["Social asset production", "Print prep", "Multi-format campaigns"],
     testedWith: ["Claude 3.5"],
@@ -173,6 +267,23 @@ Generate a motion direction brief with:
 4. Performance notes (prefer transform/opacity)
 
 Format for handoff to animator or Lottie creator.`,
+    },
+    runtime: {
+      interactionMode: "interactive",
+      outputType: "motionBrief",
+      previewRenderer: "miniWorkflowPanel",
+      exportFormats: ["prompt"],
+      runtimeCategory: "generate",
+      inputSchema: {
+        fields: [
+          { key: "keyframes", label: "Keyframe descriptions", type: "textarea", placeholder: "Frame 1: Button at rest. Frame 2: Button hover. Frame 3: Modal slides in from top...", rows: 6 },
+        ],
+      },
+      defaultInputs: { keyframes: "" },
+      presets: [
+        { id: "modal", label: "Modal entrance", inputs: { keyframes: "Frame 1: Modal off-screen (top). Frame 2: Modal slides down, backdrop fades in. Frame 3: Modal at rest, backdrop visible." } },
+        { id: "button", label: "Button hover", inputs: { keyframes: "Frame 1: Default state. Frame 2: Hover state (slight scale + shadow). Frame 3: Active/pressed state." } },
+      ],
     },
     useCases: ["Micro-interactions", "Page transitions", "Lottie production"],
     testedWith: ["Claude 3.5"],

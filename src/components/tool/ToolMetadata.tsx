@@ -4,11 +4,12 @@ import { FIELD_LABELS, TASK_LABELS, FORMAT_LABELS } from "@/lib/constants";
 
 interface ToolMetadataProps {
   tool: Tool;
+  className?: string;
 }
 
-export function ToolMetadata({ tool }: ToolMetadataProps) {
+export function ToolMetadata({ tool, className = "" }: ToolMetadataProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className={`flex flex-wrap gap-2 ${className}`}>
       <Chip>{FIELD_LABELS[tool.field]}</Chip>
       {tool.tasks.map((task) => (
         <Chip key={task}>{TASK_LABELS[task]}</Chip>

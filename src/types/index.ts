@@ -62,6 +62,8 @@ export interface ToolContent {
   instructions?: string;
 }
 
+import type { ToolRuntimeConfig } from "./runtime";
+
 // Tool schema
 export interface Tool {
   slug: string;
@@ -83,6 +85,8 @@ export interface Tool {
   testedWith?: string[];
   updatedAt: string;
   version?: string;
+  /** Runtime config for interactive/builder tools. Omit = static (copy-only) */
+  runtime?: ToolRuntimeConfig;
 }
 
 // Workflow step
