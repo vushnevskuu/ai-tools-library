@@ -34,3 +34,8 @@ export const CATEGORIES = [
   "production-resize",
   "systems-critique",
 ] as const;
+
+export const SORT_OPTIONS = [
+  { value: "newest", label: "Newest" },
+  { value: "title", label: "Title A–Z" },
+] as const;

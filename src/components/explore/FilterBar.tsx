@@ -10,13 +10,15 @@ interface FilterBarProps {
   className?: string;
   /** When on category page, pass the category to show as selected */
   category?: string;
+  testedWithOptions?: string[];
 }
 
-export function FilterBar({ className = "", category }: FilterBarProps) {
+export function FilterBar({ className = "", category, testedWithOptions = [] }: FilterBarProps) {
   const searchParams = useSearchParams();
   const currentField = category ?? searchParams.get("field");
   const currentTask = searchParams.get("task");
   const currentFormat = searchParams.get("format");
+  const currentTested = searchParams.get("tested");
 
   const buildUrl = (updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -39,10 +41,10 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
         <span className="text-[10px] font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
           Field
         </span>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           <Link
             href={buildUrl({ field: null })}
-            className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+            className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
               !currentField
                 ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
                 : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
@@ -54,7 +56,7 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
             <Link
               key={slug}
               href={buildUrl({ field: slug })}
-            className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+            className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
               currentField === slug
                 ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
                 : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
@@ -73,7 +75,7 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
         <div className="flex flex-wrap gap-1">
           <Link
             href={buildUrl({ task: null })}
-            className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+            className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
               !currentTask
                 ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
                 : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
@@ -85,7 +87,7 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
             <Link
               key={slug}
               href={buildUrl({ task: slug })}
-              className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+              className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
                 currentTask === slug
                   ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
                   : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
@@ -104,7 +106,7 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
         <div className="flex flex-wrap gap-1">
           <Link
             href={buildUrl({ format: null })}
-            className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+            className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
               !currentFormat
                 ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
                 : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
@@ -116,7 +118,7 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
             <Link
               key={slug}
               href={buildUrl({ format: slug })}
-              className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+              className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
                 currentFormat === slug
                   ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
                   : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
@@ -127,6 +129,39 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
           ))}
         </div>
       </div>
+
+      {testedWithOptions.length > 0 && (
+        <div className="flex items-center gap-1.5">
+          <span className="text-[10px] font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+            Tested with
+          </span>
+          <div className="flex flex-wrap gap-1">
+            <Link
+              href={buildUrl({ tested: null })}
+              className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+                !currentTested
+                  ? "bg-[var(--color-accent)] text-white dark:bg-[var(--color-accent)] dark:text-neutral-900"
+                  : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
+              }`}
+            >
+              All
+            </Link>
+            {testedWithOptions.map((v) => (
+              <Link
+                key={v}
+                href={buildUrl({ tested: v })}
+                className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
+                  currentTested === v
+                    ? "bg-[var(--color-accent)] text-white dark:bg-[var(--color-accent)] dark:text-neutral-900"
+                    : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
+                }`}
+              >
+                {v}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,0 +1,66 @@
+import type { DesignSystemState } from "./types";
+
+export const defaultState: DesignSystemState = {
+  brand: {
+    systemName: "My Design System",
+    productType: "Web App",
+    styleDirection: "Modern minimal",
+    platform: "Web",
+    density: "regular",
+    mode: "light",
+  },
+  colors: {
+    primary: "#6366f1",
+    secondary: "#64748b",
+    accent: "#8b5cf6",
+    success: "#22c55e",
+    warning: "#f59e0b",
+    danger: "#ef4444",
+    neutral: ["#f8fafc", "#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b", "#475569", "#334155", "#1e293b", "#0f172a"],
+    background: "#ffffff",
+    surface: "#f8fafc",
+    text: "#0f172a",
+    textMuted: "#64748b",
+    border: "#e2e8f0",
+  },
+  typography: {
+    fontFamily: "Inter, system-ui, sans-serif",
+    fontFamilyMono: "ui-monospace, monospace",
+    typeScale: [12, 14, 16, 18, 20, 24, 30, 36, 48],
+    fontWeight: { normal: 400, medium: 500, semibold: 600, bold: 700 },
+    lineHeight: { tight: 1.25, normal: 1.5, relaxed: 1.75 },
+    headingStyle: "font-semibold tracking-tight",
+    bodyStyle: "text-base leading-normal",
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+    "2xl": 48,
+  },
+  radius: {
+    none: 0,
+    small: 4,
+    medium: 8,
+    large: 12,
+    pill: 9999,
+  },
+  shadows: {
+    subtle: "0 1px 2px rgba(0,0,0,0.05)",
+    medium: "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)",
+    strong: "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
+  },
+  borders: {
+    width: 1,
+    color: "#e2e8f0",
+    dividerStrength: 0.5,
+  },
+  motion: {
+    fast: 150,
+    normal: 250,
+    slow: 400,
+    easing: "ease",
+  },
+};

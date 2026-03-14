@@ -15,7 +15,9 @@ export function ExploreToolsGrid({ tools }: ExploreToolsGridProps) {
   const field = searchParams.get("field") ?? undefined;
   const task = searchParams.get("task") ?? undefined;
   const format = searchParams.get("format") ?? undefined;
+  const tested = searchParams.get("tested") ?? undefined;
   const search = searchParams.get("search") ?? undefined;
+  const sort = searchParams.get("sort") ?? "newest";
 
   const filteredTools = useMemo(() => {
     let result = tools;
@@ -29,6 +31,9 @@ export function ExploreToolsGrid({ tools }: ExploreToolsGridProps) {
     if (format) {
       result = result.filter((t) => t.format === format);
     }
+    if (tested) {
+      result = result.filter((t) => t.testedWith?.includes(tested));
+    }
     if (search) {
       const q = search.toLowerCase();
       result = result.filter(
@@ -40,8 +45,14 @@ export function ExploreToolsGrid({ tools }: ExploreToolsGridProps) {
       );
     }
 
-    return result;
-  }, [tools, field, task, format, search]);
+    const sorted = [...result];
+    if (sort === "title") {
+      sorted.sort((a, b) => a.title.localeCompare(b.title));
+    } else {
+      sorted.sort((a, b) => (b.updatedAt ?? "").localeCompare(a.updatedAt ?? ""));
+    }
+    return sorted;
+  }, [tools, field, task, format, tested, search, sort]);
 
   if (filteredTools.length === 0) {
     return (
@@ -53,10 +64,15 @@ export function ExploreToolsGrid({ tools }: ExploreToolsGridProps) {
   }
 
   return (
-    <div className="columns-2 gap-6 lg:columns-3 [&>*]:mb-6 [&>*]:break-inside-avoid">
-      {filteredTools.map((tool) => (
-        <ToolCard key={tool.slug} tool={tool} />
-      ))}
+    <div>
+      <p className="mb-4 text-sm text-neutral-500 dark:text-neutral-400">
+        {filteredTools.length} {filteredTools.length === 1 ? "tool" : "tools"}
+      </p>
+      <div className="columns-2 gap-6 lg:columns-3 [&>*]:mb-6 [&>*]:break-inside-avoid">
+        {filteredTools.map((tool) => (
+          <ToolCard key={tool.slug} tool={tool} />
+        ))}
+      </div>
     </div>
   );
 }

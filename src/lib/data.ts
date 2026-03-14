@@ -88,3 +88,11 @@ export function getWorkflowsBySlugs(slugs: string[]): Workflow[] {
     .map((slug) => getWorkflowBySlug(slug))
     .filter((w): w is Workflow => w !== undefined);
 }
+
+export function getUniqueTestedWith(): string[] {
+  const set = new Set<string>();
+  tools.forEach((t) => {
+    t.testedWith?.forEach((v) => set.add(v));
+  });
+  return Array.from(set).sort();
+}

@@ -27,28 +27,38 @@ export default function HomePage() {
           AI tools for designers
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400">
-          A free, curated library of working prompts, agents, and templates.
-          See the effect first, understand the use case, then copy.
+          A free, visual-first library of prompts, agents, and templates — plus interactive builders for real design outputs.
         </p>
-        <Link
-          href="/explore"
-          className="mt-8 inline-flex items-center rounded-md bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-300"
-        >
-          Explore tools
-        </Link>
+        <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+          Not a prompt archive. Effect first, use case second, copy or export third.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link
+            href="/explore"
+            className="inline-flex items-center rounded-md bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-300"
+          >
+            Explore tools
+          </Link>
+          <Link
+            href="/builders/design-system"
+            className="inline-flex items-center rounded-md border border-neutral-300 px-6 py-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 dark:border-neutral-600 dark:text-neutral-300 dark:hover:bg-neutral-800"
+          >
+            Open Design System Builder
+          </Link>
+        </div>
       </section>
 
-      {/* Builders */}
+      {/* Builders — core product */}
       <section className="py-12">
         <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
           Builders
         </h2>
         <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-          Interactive utilities for daily design work
+          Interactive utilities for daily design work. Edit tokens, preview live, export JSON, CSS, Tailwind, or Tokens Studio.
         </p>
         <Link
           href="/builders/design-system"
-          className="mt-6 block overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm transition-all duration-[var(--transition-base)] hover:border-[var(--color-border-strong)] hover:shadow-lg dark:bg-[var(--color-surface-elevated)]"
+          className="mt-6 block overflow-hidden rounded-[var(--radius-lg)] border-2 border-[var(--color-border)] bg-[var(--color-surface)] shadow-md transition-all duration-[var(--transition-base)] hover:border-[var(--color-border-strong)] hover:shadow-lg dark:bg-[var(--color-surface-elevated)]"
         >
           <div className="relative aspect-[21/9] overflow-hidden bg-neutral-100 dark:bg-neutral-800">
             <Image
@@ -66,11 +76,11 @@ export default function HomePage() {
                 Design System Builder
               </h3>
               <p className="mt-0.5 text-sm text-neutral-500 dark:text-neutral-400">
-                Create tokens, export JSON, CSS, Tailwind — one source of truth.
+                Full token system: colors, typography, spacing, radius, shadows, borders, motion. Semantic tokens, component previews, multiple export formats.
               </p>
             </div>
-            <span className="mt-4 inline-flex items-center text-sm font-medium text-neutral-600 sm:mt-0 dark:text-neutral-400">
-              Open Design System Builder →
+            <span className="mt-4 inline-flex items-center rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white sm:mt-0 dark:bg-neutral-100 dark:text-neutral-900">
+              Open builder →
             </span>
           </div>
         </Link>

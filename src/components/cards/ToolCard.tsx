@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import type { Tool } from "@/types";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { ToolPreviewBlock } from "@/components/cards/ToolPreviewBlock";
 
 interface ToolCardProps {
   tool: Tool;
@@ -24,8 +24,6 @@ function getCopyText(tool: Tool): string {
 
 export function ToolCard({ tool }: ToolCardProps) {
   const copyText = getCopyText(tool);
-  const previewSrc =
-    "src" in tool.preview ? tool.preview.src : tool.preview.before;
 
   return (
     <motion.article
@@ -37,15 +35,7 @@ export function ToolCard({ tool }: ToolCardProps) {
       className="group flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm transition-all duration-[var(--transition-base)] hover:border-[var(--color-border-strong)] hover:shadow-lg focus-within:ring-2 focus-within:ring-[var(--color-accent)] focus-within:ring-offset-2 dark:bg-[var(--color-surface-elevated)]"
     >
       <Link href={`/tools/${tool.slug}`} className="flex flex-1 flex-col">
-        <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100 dark:bg-neutral-800">
-          <Image
-            src={previewSrc}
-            alt={tool.preview.alt ?? tool.title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        </div>
+        <ToolPreviewBlock tool={tool} className="transition-transform duration-300 group-hover:scale-[1.02]" />
         <div className="flex flex-1 flex-col gap-2 p-4">
           <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
             {tool.title}
