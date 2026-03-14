@@ -7,6 +7,8 @@ import { ExternalLink, Download } from "lucide-react";
 
 interface ToolActionsProps {
   tool: Tool;
+  /** When false, only show View on GitHub (e.g. when interactive configurator has its own Download) */
+  showDownload?: boolean;
 }
 
 function getContentForDownload(tool: Tool): string {
@@ -22,7 +24,7 @@ function getContentForDownload(tool: Tool): string {
   return `# ${tool.title}\n\n${tool.tagline}\n\n---\n\n## ${format}\n\n${body}`;
 }
 
-export function ToolActions({ tool }: ToolActionsProps) {
+export function ToolActions({ tool, showDownload = true }: ToolActionsProps) {
   const content = getContentForDownload(tool);
   const githubUrl = getToolGitHubPath(tool.slug);
   const filename = `${tool.slug}.md`;
@@ -39,14 +41,16 @@ export function ToolActions({ tool }: ToolActionsProps) {
 
   return (
     <div className="flex flex-wrap gap-2">
-      <button
-        type="button"
-        onClick={handleDownload}
-        className="inline-flex items-center gap-2 rounded-md border border-[var(--color-border)] px-3 py-2 text-sm font-medium transition-colors hover:bg-[var(--color-surface-elevated)] dark:hover:bg-neutral-800"
-      >
-        <Download className="size-4" />
-        Download .md
-      </button>
+      {showDownload && (
+        <button
+          type="button"
+          onClick={handleDownload}
+          className="inline-flex items-center gap-2 rounded-md border border-[var(--color-border)] px-3 py-2 text-sm font-medium transition-colors hover:bg-[var(--color-surface-elevated)] dark:hover:bg-neutral-800"
+        >
+          <Download className="size-4" />
+          Download .md
+        </button>
+      )}
       <Link
         href={githubUrl}
         target="_blank"

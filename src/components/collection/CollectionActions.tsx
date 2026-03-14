@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Collection } from "@/types";
 import type { Tool } from "@/types";
 import { getCollectionGitHubPath } from "@/lib/github";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { ExternalLink, Download } from "lucide-react";
 
 interface CollectionActionsProps {
@@ -52,6 +53,7 @@ export function CollectionActions({ collection, tools }: CollectionActionsProps)
 
   return (
     <div className="flex flex-wrap gap-2">
+      <CopyButton text={content} label="Copy pack" />
       <button
         type="button"
         onClick={handleDownload}

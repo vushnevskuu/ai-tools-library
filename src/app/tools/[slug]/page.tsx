@@ -6,6 +6,9 @@ import { ToolHero } from "@/components/tool/ToolHero";
 import { ToolMetadata } from "@/components/tool/ToolMetadata";
 import { ToolContentTabs } from "@/components/tool/ToolContentTabs";
 import { ToolActions } from "@/components/tool/ToolActions";
+import { ToolWorkbench } from "@/components/runtime/ToolWorkbench";
+import { PromptConfigurator } from "@/components/tool/PromptConfigurator";
+import { hasPlaceholdersNoRuntime } from "@/lib/runtime/promptBuilder";
 import { RelatedTools } from "@/components/tool/RelatedTools";
 import { RelatedWorkflows } from "@/components/tool/RelatedWorkflows";
 import {
@@ -110,10 +113,23 @@ export default async function ToolPage({ params }: ToolPageProps) {
           <h2 className="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
             Copy & use
           </h2>
-          <ToolContentTabs tool={tool} />
-          <div className="mt-4">
-            <ToolActions tool={tool} />
-          </div>
+          {tool.runtime?.inputSchema ? (
+            <ToolWorkbench tool={tool} runtime={tool.runtime} />
+          ) : hasPlaceholdersNoRuntime(tool) ? (
+            <PromptConfigurator tool={tool} />
+          ) : (
+            <>
+              <ToolContentTabs tool={tool} />
+              <div className="mt-4">
+                <ToolActions tool={tool} />
+              </div>
+            </>
+          )}
+          {(tool.runtime?.inputSchema || hasPlaceholdersNoRuntime(tool)) && (
+            <div className="mt-4">
+              <ToolActions tool={tool} showDownload={false} />
+            </div>
+          )}
         </section>
 
         {tool.limitations && tool.limitations.length > 0 && (
