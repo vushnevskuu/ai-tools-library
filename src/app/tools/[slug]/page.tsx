@@ -5,9 +5,9 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { ToolHero } from "@/components/tool/ToolHero";
 import { ToolMetadata } from "@/components/tool/ToolMetadata";
 import { ToolContentTabs } from "@/components/tool/ToolContentTabs";
+import { ToolActions } from "@/components/tool/ToolActions";
 import { RelatedTools } from "@/components/tool/RelatedTools";
 import { RelatedWorkflows } from "@/components/tool/RelatedWorkflows";
-import { ToolWorkbench } from "@/components/runtime/ToolWorkbench";
 import {
   getToolBySlug,
   getToolsBySlugs,
@@ -66,26 +66,8 @@ export default async function ToolPage({ params }: ToolPageProps) {
       </nav>
 
       <div className="space-y-8">
-        {tool.runtime?.interactionMode === "interactive" &&
-        tool.runtime.inputSchema ? (
-          <>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-3xl">
-                {tool.title}
-              </h1>
-              <p className="mt-2 text-lg text-neutral-600 dark:text-neutral-400">
-                {tool.tagline}
-              </p>
-              <ToolMetadata tool={tool} className="mt-4" />
-            </div>
-            <ToolWorkbench tool={tool} runtime={tool.runtime} />
-          </>
-        ) : (
-          <>
-            <ToolHero tool={tool} />
-            <ToolMetadata tool={tool} />
-          </>
-        )}
+        <ToolHero tool={tool} />
+        <ToolMetadata tool={tool} />
 
         <section>
           <h2 className="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
@@ -109,7 +91,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
           </section>
         )}
 
-        {tool.inputRequirements && !tool.runtime?.inputSchema && (
+        {tool.inputRequirements && (
           <section>
             <h2 className="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
               Input requirements
@@ -120,14 +102,15 @@ export default async function ToolPage({ params }: ToolPageProps) {
           </section>
         )}
 
-        {(!tool.runtime || tool.runtime.interactionMode === "static") && (
-          <section>
-            <h2 className="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-              Copy & use
-            </h2>
-            <ToolContentTabs tool={tool} />
-          </section>
-        )}
+        <section>
+          <h2 className="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+            Copy & use
+          </h2>
+          <ToolContentTabs tool={tool} />
+          <div className="mt-4">
+            <ToolActions tool={tool} />
+          </div>
+        </section>
 
         {tool.limitations && tool.limitations.length > 0 && (
           <section>

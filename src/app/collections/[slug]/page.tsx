@@ -5,6 +5,7 @@ import Image from "next/image";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Chip } from "@/components/ui/Chip";
 import { ToolCard } from "@/components/cards/ToolCard";
+import { CollectionActions } from "@/components/collection/CollectionActions";
 import { WorkflowCard } from "@/components/cards/WorkflowCard";
 import {
   getCollectionBySlug,
@@ -86,6 +87,9 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
           <p className="mt-2 text-lg text-neutral-600 dark:text-neutral-400">
             {collection.tagline}
           </p>
+          <div className="mt-4">
+            <CollectionActions collection={collection} tools={tools} />
+          </div>
         </div>
 
         <section>

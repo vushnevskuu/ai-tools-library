@@ -16,7 +16,6 @@ export function ExploreToolsGrid({ tools }: ExploreToolsGridProps) {
   const task = searchParams.get("task") ?? undefined;
   const format = searchParams.get("format") ?? undefined;
   const tested = searchParams.get("tested") ?? undefined;
-  const mode = searchParams.get("mode") ?? undefined;
   const search = searchParams.get("search") ?? undefined;
   const sort = searchParams.get("sort") ?? "newest";
 
@@ -34,9 +33,6 @@ export function ExploreToolsGrid({ tools }: ExploreToolsGridProps) {
     }
     if (tested) {
       result = result.filter((t) => t.testedWith?.includes(tested));
-    }
-    if (mode) {
-      result = result.filter((t) => (t.runtime?.interactionMode ?? "static") === mode);
     }
     if (search) {
       const q = search.toLowerCase();

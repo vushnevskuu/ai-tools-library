@@ -46,6 +46,14 @@ export function SiteHeader() {
           >
             Builders
           </Link>
+          <a
+            href="https://github.com/vushnevskuu/ai-tools-library"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+          >
+            GitHub
+          </a>
           <Link
             href="/about"
             className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"

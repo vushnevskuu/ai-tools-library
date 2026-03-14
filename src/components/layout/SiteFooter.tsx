@@ -23,6 +23,14 @@ export function SiteFooter() {
             >
               Builders
             </Link>
+            <a
+              href="https://github.com/vushnevskuu/ai-tools-library"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text)]"
+            >
+              GitHub
+            </a>
             <Link
               href="/about"
               className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text)]"

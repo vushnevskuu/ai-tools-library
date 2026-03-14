@@ -5,6 +5,7 @@ import Image from "next/image";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Chip } from "@/components/ui/Chip";
 import { ToolCard } from "@/components/cards/ToolCard";
+import { WorkflowActions } from "@/components/workflow/WorkflowActions";
 import {
   getWorkflowBySlug,
   getToolsBySlugs,
@@ -87,6 +88,9 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
           <p className="mt-2 text-lg text-neutral-600 dark:text-neutral-400">
             {workflow.tagline}
           </p>
+          <div className="mt-4">
+            <WorkflowActions workflow={workflow} tools={tools} />
+          </div>
         </div>
 
         <section>

@@ -4,11 +4,10 @@ import { FilterBar } from "@/components/explore/FilterBar";
 import { SearchInput } from "@/components/explore/SearchInput";
 import { ExploreSortSelect } from "@/components/explore/ExploreSortSelect";
 import { ExploreToolsGrid } from "@/components/explore/ExploreToolsGrid";
-import { getAllTools, getUniqueTestedWith } from "@/lib/data";
+import { getAllTools } from "@/lib/data";
 
 export default function ExplorePage() {
   const tools = getAllTools();
-  const testedWithOptions = getUniqueTestedWith();
 
   return (
     <PageContainer className="py-6">
@@ -28,7 +27,7 @@ export default function ExplorePage() {
             </div>
           </div>
           <Suspense fallback={null}>
-            <FilterBar testedWithOptions={testedWithOptions} />
+            <FilterBar showInteractionMode={false} />
           </Suspense>
         </div>
       </div>
