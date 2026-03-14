@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,6 +15,27 @@ import { FIELD_LABELS } from "@/lib/constants";
 
 interface CollectionPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export function generateStaticParams() {
+  const { collections } = require("@/content/collections");
+  return collections.map((c: { slug: string }) => ({ slug: c.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: CollectionPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const collection = getCollectionBySlug(slug);
+  if (!collection) return {};
+  return {
+    title: collection.title,
+    description: collection.tagline,
+    openGraph: {
+      title: collection.title,
+      description: collection.tagline,
+    },
+  };
 }
 
 export default async function CollectionPage({ params }: CollectionPageProps) {

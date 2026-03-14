@@ -17,7 +17,9 @@ export function CollectionCard({ collection }: CollectionCardProps) {
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="group flex flex-col overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.2 }}
+      className="group flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm transition-all duration-[var(--transition-base)] hover:border-[var(--color-border-strong)] hover:shadow-lg focus-within:ring-2 focus-within:ring-[var(--color-accent)] focus-within:ring-offset-2 dark:bg-[var(--color-surface-elevated)]"
     >
       <Link
         href={`/collections/${collection.slug}`}
@@ -35,7 +37,7 @@ export function CollectionCard({ collection }: CollectionCardProps) {
             {collection.toolSlugs.length} tools
           </div>
         </div>
-        <div className="flex flex-1 flex-col gap-3 p-4">
+        <div className="flex flex-1 flex-col gap-3 p-[var(--space-card)]">
           {collection.field && (
             <div className="flex flex-wrap gap-1">
               <Chip>{FIELD_LABELS[collection.field]}</Chip>
@@ -49,7 +51,7 @@ export function CollectionCard({ collection }: CollectionCardProps) {
           </p>
         </div>
       </Link>
-      <div className="p-4">
+      <div className="p-[var(--space-card)]">
         <Link
           href={`/collections/${collection.slug}`}
           className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"

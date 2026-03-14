@@ -20,6 +20,9 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
 
   const buildUrl = (updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams.toString());
+    if (category) {
+      params.set("field", category);
+    }
     Object.entries(updates).forEach(([key, value]) => {
       if (value) {
         params.set(key, value);
@@ -39,10 +42,10 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
         <div className="flex flex-wrap gap-1">
           <Link
             href={buildUrl({ field: null })}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+            className={`rounded-full px-3 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
               !currentField
-                ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900"
-                : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
+                ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
+                : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
             }`}
           >
             All
@@ -51,10 +54,10 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
             <Link
               key={slug}
               href={buildUrl({ field: slug })}
-              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+              className={`rounded-full px-3 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
                 currentField === slug
-                  ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900"
-                  : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
+                  ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
+                  : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
               }`}
             >
               {FIELD_LABELS[slug as Field]}
@@ -70,10 +73,10 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
         <div className="flex flex-wrap gap-1">
           <Link
             href={buildUrl({ task: null })}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+            className={`rounded-full px-3 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
               !currentTask
-                ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900"
-                : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
+                ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
+                : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
             }`}
           >
             All
@@ -82,10 +85,10 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
             <Link
               key={slug}
               href={buildUrl({ task: slug })}
-              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+              className={`rounded-full px-3 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
                 currentTask === slug
-                  ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900"
-                  : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
+                  ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
+                  : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
               }`}
             >
               {TASK_LABELS[slug]}
@@ -101,10 +104,10 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
         <div className="flex flex-wrap gap-1">
           <Link
             href={buildUrl({ format: null })}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+            className={`rounded-full px-3 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
               !currentFormat
-                ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900"
-                : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
+                ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
+                : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
             }`}
           >
             All
@@ -113,10 +116,10 @@ export function FilterBar({ className = "", category }: FilterBarProps) {
             <Link
               key={slug}
               href={buildUrl({ format: slug })}
-              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+              className={`rounded-full px-3 py-1 text-xs font-medium transition-all duration-[var(--transition-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
                 currentFormat === slug
-                  ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900"
-                  : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
+                  ? "bg-[var(--color-accent)] text-white hover:opacity-90 dark:bg-[var(--color-accent)] dark:text-neutral-900 dark:hover:opacity-90"
+                  : "bg-[var(--color-surface-elevated)] text-[var(--color-text-muted)] hover:bg-[var(--color-border)] dark:hover:bg-[var(--color-border)]"
               }`}
             >
               {FORMAT_LABELS[slug]}

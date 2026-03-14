@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,6 +13,27 @@ import { FIELD_LABELS } from "@/lib/constants";
 
 interface WorkflowPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export function generateStaticParams() {
+  const { workflows } = require("@/content/workflows");
+  return workflows.map((w: { slug: string }) => ({ slug: w.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: WorkflowPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const workflow = getWorkflowBySlug(slug);
+  if (!workflow) return {};
+  return {
+    title: workflow.title,
+    description: workflow.tagline,
+    openGraph: {
+      title: workflow.title,
+      description: workflow.tagline,
+    },
+  };
 }
 
 export default async function WorkflowPage({ params }: WorkflowPageProps) {

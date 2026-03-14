@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, Copy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface CopyButtonProps {
   text: string;
@@ -9,16 +12,17 @@ interface CopyButtonProps {
   className?: string;
 }
 
-export function CopyButton({ text, label = "Copy", className = "" }: CopyButtonProps) {
+export function CopyButton({ text, label = "Copy", className }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
+  const [copying, setCopying] = useState(false);
 
   const handleCopy = async () => {
+    setCopying(true);
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback for older browsers
       const textArea = document.createElement("textarea");
       textArea.value = text;
       document.body.appendChild(textArea);
@@ -27,23 +31,47 @@ export function CopyButton({ text, label = "Copy", className = "" }: CopyButtonP
       document.body.removeChild(textArea);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    } finally {
+      setTimeout(() => setCopying(false), 300);
     }
   };
 
   return (
-    <motion.button
-      type="button"
-      onClick={handleCopy}
-      className={`inline-flex items-center gap-2 rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700 ${className}`}
-      whileTap={{ scale: 0.98 }}
-    >
-      {copied ? (
-        <>
-          <span className="text-green-600 dark:text-green-400">Copied</span>
-        </>
-      ) : (
-        <span>{label}</span>
-      )}
-    </motion.button>
+    <motion.div whileTap={{ scale: 0.98 }}>
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        onClick={handleCopy}
+        disabled={copying}
+        className={cn("gap-2 transition-all", className)}
+      >
+        <AnimatePresence mode="wait">
+          {copied ? (
+            <motion.span
+              key="copied"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center gap-2 text-green-600 dark:text-green-400"
+            >
+              <Check className="size-3.5" />
+              Copied
+            </motion.span>
+          ) : (
+            <motion.span
+              key="copy"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center gap-2"
+            >
+              <Copy className="size-3.5" />
+              {label}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </Button>
+    </motion.div>
   );
 }

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageContainer";
@@ -14,6 +15,27 @@ import {
 
 interface ToolPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export function generateStaticParams() {
+  const { tools } = require("@/content/tools");
+  return tools.map((t: { slug: string }) => ({ slug: t.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: ToolPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const tool = getToolBySlug(slug);
+  if (!tool) return {};
+  return {
+    title: tool.title,
+    description: tool.tagline,
+    openGraph: {
+      title: tool.title,
+      description: tool.tagline,
+    },
+  };
 }
 
 export default async function ToolPage({ params }: ToolPageProps) {

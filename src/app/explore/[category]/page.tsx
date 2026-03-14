@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { FilterBar } from "@/components/explore/FilterBar";
@@ -6,6 +7,10 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { getToolsByField } from "@/lib/data";
 import { FIELD_LABELS } from "@/lib/constants";
 import { FIELDS } from "@/types";
+
+export function generateStaticParams() {
+  return FIELDS.map((category) => ({ category }));
+}
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
@@ -33,7 +38,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </div>
 
       <div className="mb-8">
-        <FilterBar category={category} />
+        <Suspense fallback={null}>
+          <FilterBar category={category} />
+        </Suspense>
       </div>
 
       {tools.length > 0 ? (

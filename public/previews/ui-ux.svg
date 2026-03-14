@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="uiux" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#1e3a5f"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#uiux)"/>
+  <text x="200" y="155" fill="rgba(255,255,255,0.6)" font-family="system-ui,sans-serif" font-size="14" text-anchor="middle" font-weight="500">UI / UX</text>
+</svg>

@@ -34,7 +34,9 @@ export function ToolCard({ tool }: ToolCardProps) {
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="group flex flex-col overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.2 }}
+      className="group flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm transition-all duration-[var(--transition-base)] hover:border-[var(--color-border-strong)] hover:shadow-lg focus-within:ring-2 focus-within:ring-[var(--color-accent)] focus-within:ring-offset-2 dark:bg-[var(--color-surface-elevated)]"
     >
       <Link href={`/tools/${tool.slug}`} className="flex flex-1 flex-col">
         <div className="relative aspect-video overflow-hidden bg-neutral-100 dark:bg-neutral-800">
@@ -46,7 +48,7 @@ export function ToolCard({ tool }: ToolCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
-        <div className="flex flex-1 flex-col gap-3 p-4">
+        <div className="flex flex-1 flex-col gap-3 p-[var(--space-card)]">
           <div className="flex flex-wrap gap-1">
             <Chip>{FIELD_LABELS[tool.field]}</Chip>
             <Chip>{FORMAT_LABELS[tool.format]}</Chip>
@@ -64,7 +66,7 @@ export function ToolCard({ tool }: ToolCardProps) {
           )}
         </div>
       </Link>
-      <div className="flex items-center justify-between border-t border-neutral-100 p-4 dark:border-neutral-800">
+      <div className="flex items-center justify-between border-t border-[var(--color-border)] p-[var(--space-card)]">
         <CopyButton text={copyText} label="Copy" />
         <Link
           href={`/tools/${tool.slug}`}

@@ -14,7 +14,7 @@ export const collections: Collection[] = [
     ],
     workflowSlugs: ["design-system-audit"],
     preview: {
-      src: "/previews/placeholder.svg",
+      src: "/previews/systems-critique.svg",
       alt: "Daily UI Critique collection",
     },
     field: "systems-critique",
@@ -28,7 +28,7 @@ export const collections: Collection[] = [
       "Templates and prompts for production workflows: resizing, format specs, batch instructions.",
     toolSlugs: ["batch-resize-prompt"],
     preview: {
-      src: "/previews/placeholder.svg",
+      src: "/previews/production-resize.svg",
       alt: "Production Essentials collection",
     },
     field: "production-resize",
@@ -43,10 +43,70 @@ export const collections: Collection[] = [
     toolSlugs: ["brand-voice-extractor", "motion-direction-brief"],
     workflowSlugs: ["brand-to-motion"],
     preview: {
-      src: "/previews/placeholder.svg",
+      src: "/previews/brand-visual.svg",
       alt: "Brand & Motion collection",
     },
     field: "brand-visual",
+    updatedAt: "2025-03-14",
+  },
+  {
+    slug: "design-system-deep-dive",
+    title: "Design System Deep Dive",
+    tagline: "Token audit, spacing, contrast, component consistency.",
+    description:
+      "A comprehensive set of tools for auditing and improving design system health: tokens, spacing, color contrast, and component consistency.",
+    toolSlugs: [
+      "design-token-audit",
+      "critique-spacing",
+      "critique-color-contrast",
+      "component-consistency",
+      "design-system-health",
+    ],
+    workflowSlugs: ["design-system-audit"],
+    preview: {
+      src: "/previews/systems-critique.svg",
+      alt: "Design System Deep Dive collection",
+    },
+    field: "systems-critique",
+    updatedAt: "2025-03-14",
+  },
+  {
+    slug: "brand-foundations",
+    title: "Brand Foundations",
+    tagline: "Voice, palette, mood, taglines.",
+    description:
+      "Core brand tools: voice extraction, color palette direction, visual mood, and tagline generation for brand consistency.",
+    toolSlugs: [
+      "brand-voice-extractor",
+      "color-palette-generator",
+      "visual-mood-board",
+      "tagline-generator",
+    ],
+    preview: {
+      src: "/previews/brand-visual.svg",
+      alt: "Brand Foundations collection",
+    },
+    field: "brand-visual",
+    updatedAt: "2025-03-14",
+  },
+  {
+    slug: "motion-production",
+    title: "Motion Production",
+    tagline: "Direction briefs, easing, Lottie, keyframe specs.",
+    description:
+      "Tools for motion design handoff: direction briefs, easing specs, Lottie implementation, and keyframe-to-CSS conversion.",
+    toolSlugs: [
+      "motion-direction-brief",
+      "easing-specs",
+      "lottie-brief",
+      "keyframe-to-css",
+    ],
+    workflowSlugs: ["brand-to-motion"],
+    preview: {
+      src: "/previews/motion-3d.svg",
+      alt: "Motion Production collection",
+    },
+    field: "motion-3d",
     updatedAt: "2025-03-14",
   },
 ];

@@ -2,22 +2,11 @@ import { Suspense } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { FilterBar } from "@/components/explore/FilterBar";
 import { SearchInput } from "@/components/explore/SearchInput";
-import { ToolCard } from "@/components/cards/ToolCard";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { getFilteredTools } from "@/lib/data";
+import { ExploreToolsGrid } from "@/components/explore/ExploreToolsGrid";
+import { getAllTools } from "@/lib/data";
 
-interface ExplorePageProps {
-  searchParams: Promise<{ field?: string; task?: string; format?: string; search?: string }>;
-}
-
-export default async function ExplorePage({ searchParams }: ExplorePageProps) {
-  const params = await searchParams;
-  const tools = getFilteredTools({
-    field: params.field ?? undefined,
-    task: params.task ?? undefined,
-    format: params.format ?? undefined,
-    search: params.search ?? undefined,
-  });
+export default function ExplorePage() {
+  const tools = getAllTools();
 
   return (
     <PageContainer className="py-8">
@@ -34,21 +23,14 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
         <Suspense fallback={null}>
           <SearchInput />
         </Suspense>
-        <FilterBar />
+        <Suspense fallback={null}>
+          <FilterBar />
+        </Suspense>
       </div>
 
-      {tools.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map((tool) => (
-            <ToolCard key={tool.slug} tool={tool} />
-          ))}
-        </div>
-      ) : (
-        <EmptyState
-          title="No tools match your filters"
-          description="Try adjusting filters or search query."
-        />
-      )}
+      <Suspense fallback={<div className="h-64 animate-pulse rounded-lg bg-neutral-100 dark:bg-neutral-800" />}>
+        <ExploreToolsGrid tools={tools} />
+      </Suspense>
     </PageContainer>
   );
 }

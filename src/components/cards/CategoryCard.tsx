@@ -18,8 +18,8 @@ export function CategoryCard({ slug, toolCount }: CategoryCardProps) {
       whileHover={{ y: -2 }}
     >
       <Link
-        href={`/explore?field=${slug}`}
-        className="block rounded-lg border border-neutral-200 bg-white p-6 transition-colors hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700 dark:hover:bg-neutral-800"
+        href={`/explore/${slug}`}
+        className="block rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 transition-all duration-[var(--transition-base)] hover:border-[var(--color-border-strong)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 dark:bg-[var(--color-surface-elevated)]"
       >
         <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
           {FIELD_LABELS[slug]}
