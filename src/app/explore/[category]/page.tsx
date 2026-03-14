@@ -6,10 +6,10 @@ import { ToolCard } from "@/components/cards/ToolCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { getToolsByField } from "@/lib/data";
 import { FIELD_LABELS } from "@/lib/constants";
-import { FIELDS } from "@/types";
+import { VISIBLE_FIELDS } from "@/config/homepage";
 
 export function generateStaticParams() {
-  return FIELDS.map((category) => ({ category }));
+  return VISIBLE_FIELDS.map((category) => ({ category }));
 }
 
 interface CategoryPageProps {
@@ -18,7 +18,7 @@ interface CategoryPageProps {
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params;
-  const validCategory = FIELDS.includes(category as (typeof FIELDS)[number]);
+  const validCategory = (VISIBLE_FIELDS as readonly string[]).includes(category);
 
   if (!validCategory) {
     notFound();

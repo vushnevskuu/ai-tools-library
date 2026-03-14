@@ -2,9 +2,39 @@ import type { Tool, Workflow, Collection } from "@/types";
 import { tools } from "@/content/tools";
 import { workflows } from "@/content/workflows";
 import { collections } from "@/content/collections";
+import { VISIBLE_FIELDS } from "@/config/homepage";
+
+const VISIBLE_SET = new Set<string>(VISIBLE_FIELDS);
 
 export function getAllTools(): Tool[] {
   return tools;
+}
+
+export function getVisibleTools(): Tool[] {
+  return tools.filter((t) => VISIBLE_SET.has(t.field));
+}
+
+export function getVisibleCollections(): Collection[] {
+  return collections.filter((c) => c.field && VISIBLE_SET.has(c.field));
+}
+
+export function getVisibleWorkflows(): Workflow[] {
+  return workflows.filter((w) => VISIBLE_SET.has(w.field));
+}
+
+export function isToolVisible(slug: string): boolean {
+  const tool = getToolBySlug(slug);
+  return !!tool && VISIBLE_SET.has(tool.field);
+}
+
+export function isCollectionVisible(slug: string): boolean {
+  const collection = getCollectionBySlug(slug);
+  return !!collection && !!collection.field && VISIBLE_SET.has(collection.field);
+}
+
+export function isWorkflowVisible(slug: string): boolean {
+  const workflow = getWorkflowBySlug(slug);
+  return !!workflow && VISIBLE_SET.has(workflow.field);
 }
 
 export function getToolBySlug(slug: string): Tool | undefined {

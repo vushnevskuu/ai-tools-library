@@ -9,6 +9,9 @@ import { WorkflowActions } from "@/components/workflow/WorkflowActions";
 import {
   getWorkflowBySlug,
   getToolsBySlugs,
+  getVisibleWorkflows,
+  isWorkflowVisible,
+  isToolVisible,
 } from "@/lib/data";
 import { FIELD_LABELS } from "@/lib/constants";
 
@@ -17,8 +20,7 @@ interface WorkflowPageProps {
 }
 
 export function generateStaticParams() {
-  const { workflows } = require("@/content/workflows");
-  return workflows.map((w: { slug: string }) => ({ slug: w.slug }));
+  return getVisibleWorkflows().map((w) => ({ slug: w.slug }));
 }
 
 export async function generateMetadata({
@@ -41,7 +43,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
   const { slug } = await params;
   const workflow = getWorkflowBySlug(slug);
 
-  if (!workflow) {
+  if (!workflow || !isWorkflowVisible(slug)) {
     notFound();
   }
 
@@ -51,7 +53,9 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
   const toolMap = Object.fromEntries(tools.map((t) => [t.slug, t]));
 
   const relatedTools = workflow.relatedTools
-    ? getToolsBySlugs(workflow.relatedTools)
+    ? getToolsBySlugs(workflow.relatedTools).filter((t) =>
+        isToolVisible(t.slug)
+      )
     : [];
 
   return (

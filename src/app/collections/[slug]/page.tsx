@@ -11,6 +11,10 @@ import {
   getCollectionBySlug,
   getToolsBySlugs,
   getWorkflowsBySlugs,
+  getVisibleCollections,
+  isCollectionVisible,
+  isToolVisible,
+  isWorkflowVisible,
 } from "@/lib/data";
 import { FIELD_LABELS } from "@/lib/constants";
 
@@ -19,8 +23,7 @@ interface CollectionPageProps {
 }
 
 export function generateStaticParams() {
-  const { collections } = require("@/content/collections");
-  return collections.map((c: { slug: string }) => ({ slug: c.slug }));
+  return getVisibleCollections().map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
@@ -43,13 +46,17 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
   const { slug } = await params;
   const collection = getCollectionBySlug(slug);
 
-  if (!collection) {
+  if (!collection || !isCollectionVisible(slug)) {
     notFound();
   }
 
-  const tools = getToolsBySlugs(collection.toolSlugs);
+  const tools = getToolsBySlugs(collection.toolSlugs).filter((t) =>
+    isToolVisible(t.slug)
+  );
   const workflows = collection.workflowSlugs
-    ? getWorkflowsBySlugs(collection.workflowSlugs)
+    ? getWorkflowsBySlugs(collection.workflowSlugs).filter((w) =>
+        isWorkflowVisible(w.slug)
+      )
     : [];
 
   return (

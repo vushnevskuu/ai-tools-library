@@ -3,18 +3,18 @@ import Image from "next/image";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { ToolCard } from "@/components/cards/ToolCard";
 import { CollectionCard } from "@/components/cards/CollectionCard";
-import { getAllTools, getToolsBySlugs, getAllCollections } from "@/lib/data";
+import { getVisibleTools, getToolsBySlugs, getVisibleCollections } from "@/lib/data";
 import {
   HOMEPAGE_CORE_TOOL_SLUGS,
   HOMEPAGE_COLLECTION_SLUGS,
 } from "@/config/homepage";
 
 export default function HomePage() {
-  const allTools = getAllTools();
+  const visibleTools = getVisibleTools();
   const coreTools = getToolsBySlugs([...HOMEPAGE_CORE_TOOL_SLUGS]);
-  const allCollections = getAllCollections();
+  const visibleCollections = getVisibleCollections();
   const featuredCollectionSlugs = new Set<string>([...HOMEPAGE_COLLECTION_SLUGS]);
-  const featuredCollections = allCollections.filter((c) =>
+  const featuredCollections = visibleCollections.filter((c) =>
     featuredCollectionSlugs.has(c.slug)
   );
 
@@ -122,13 +122,13 @@ export default function HomePage() {
             Explore the full library
           </h2>
           <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-            View all {allTools.length} tools — prompts, templates, and workflows.
+            View all {visibleTools.length} tools — prompts, templates, and workflows.
           </p>
           <Link
             href="/explore"
             className="mt-6 inline-flex items-center rounded-md bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-300"
           >
-            View all {allTools.length} tools
+            View all {visibleTools.length} tools
           </Link>
         </div>
       </section>

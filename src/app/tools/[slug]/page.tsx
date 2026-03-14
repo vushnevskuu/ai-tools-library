@@ -12,6 +12,9 @@ import {
   getToolBySlug,
   getToolsBySlugs,
   getWorkflowsBySlugs,
+  getVisibleTools,
+  isToolVisible,
+  isWorkflowVisible,
 } from "@/lib/data";
 
 interface ToolPageProps {
@@ -19,8 +22,7 @@ interface ToolPageProps {
 }
 
 export function generateStaticParams() {
-  const { tools } = require("@/content/tools");
-  return tools.map((t: { slug: string }) => ({ slug: t.slug }));
+  return getVisibleTools().map((t) => ({ slug: t.slug }));
 }
 
 export async function generateMetadata({
@@ -43,15 +45,17 @@ export default async function ToolPage({ params }: ToolPageProps) {
   const { slug } = await params;
   const tool = getToolBySlug(slug);
 
-  if (!tool) {
+  if (!tool || !isToolVisible(slug)) {
     notFound();
   }
 
   const relatedTools = tool.relatedTools
-    ? getToolsBySlugs(tool.relatedTools)
+    ? getToolsBySlugs(tool.relatedTools).filter((t) => isToolVisible(t.slug))
     : [];
   const relatedWorkflows = tool.relatedWorkflows
-    ? getWorkflowsBySlugs(tool.relatedWorkflows)
+    ? getWorkflowsBySlugs(tool.relatedWorkflows).filter((w) =>
+        isWorkflowVisible(w.slug)
+      )
     : [];
 
   return (

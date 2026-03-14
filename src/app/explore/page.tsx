@@ -4,10 +4,10 @@ import { FilterBar } from "@/components/explore/FilterBar";
 import { SearchInput } from "@/components/explore/SearchInput";
 import { ExploreSortSelect } from "@/components/explore/ExploreSortSelect";
 import { ExploreToolsGrid } from "@/components/explore/ExploreToolsGrid";
-import { getAllTools } from "@/lib/data";
+import { getVisibleTools } from "@/lib/data";
 
 export default function ExplorePage() {
-  const tools = getAllTools();
+  const tools = getVisibleTools();
 
   return (
     <PageContainer className="py-6">

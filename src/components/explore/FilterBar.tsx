@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { FIELD_LABELS, TASK_LABELS, FORMAT_LABELS, INTERACTION_MODE_LABELS } from "@/lib/constants";
-import { CATEGORIES } from "@/lib/constants";
+import { VISIBLE_FIELDS } from "@/config/homepage";
 import type { Field, Task, Format } from "@/types";
 import type { InteractionMode } from "@/types/runtime";
 
@@ -57,7 +57,7 @@ export function FilterBar({ className = "", category, testedWithOptions = [], sh
           >
             All
           </Link>
-          {CATEGORIES.map((slug) => (
+          {VISIBLE_FIELDS.map((slug) => (
             <Link
               key={slug}
               href={buildUrl({ field: slug })}
