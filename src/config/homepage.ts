@@ -1,23 +1,22 @@
 /**
  * Homepage curation — explicit whitelists for MVP feel.
- * Explore page and category routes use full dataset.
+ * Only UI/UX and design system tools. Explore page has full dataset.
  */
 
 export const HOMEPAGE_CORE_TOOL_SLUGS = [
   "critique-button-hierarchy",
   "critique-color-contrast",
   "critique-spacing",
-  "brand-voice-extractor",
-  "batch-resize-prompt",
-  "motion-direction-brief",
+  "critique-typography",
+  "critique-layout",
+  "form-critique",
   "design-token-audit",
   "design-system-health",
-  "color-palette-generator",
-  "form-critique",
+  "component-consistency",
+  "accessibility-checklist",
 ] as const;
 
 export const HOMEPAGE_COLLECTION_SLUGS = [
   "daily-ui-critique",
-  "brand-foundations",
-  "motion-production",
+  "design-system-deep-dive",
 ] as const;
