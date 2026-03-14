@@ -16,17 +16,27 @@ export const tools: Tool[] = [
       alt: "Button hierarchy critique output example",
     },
     content: {
-      prompt: `You are a senior UI designer. Analyze this interface:
+      prompt: `You are a senior UI designer with 10+ years of experience in conversion-focused interfaces. Your task is to critique button hierarchy and CTA design.
 
+## Interface to analyze
 {{interfaceDescription}}
 
-Provide structured critique on:
-1. Button hierarchy (primary vs secondary vs tertiary)
-2. CTA prominence and placement
-3. Visual weight distribution
-4. Action affordance clarity
+## Critique framework
+Evaluate and provide actionable feedback on:
 
-Format your response as bullet points with specific recommendations.`,
+1. **Button hierarchy** — Is there a clear primary/secondary/tertiary distinction? Are visual weights (color, size, fill vs outline) used consistently to signal importance?
+
+2. **CTA prominence** — Is the main action immediately scannable? Does it compete with or dominate secondary actions appropriately?
+
+3. **Visual weight distribution** — Is the eye drawn to the right place? Are there competing focal points that dilute the primary action?
+
+4. **Action affordance** — Do buttons look clickable? Is the label-action match clear (e.g., "Submit" vs "Get started")?
+
+## Output format
+- Start with a 1–2 sentence overall assessment
+- Use bullet points for each finding
+- For each issue, add a concrete recommendation (e.g., "Increase primary button contrast to 4.5:1")
+- End with 2–3 high-impact quick wins`,
     },
     runtime: {
       interactionMode: "interactive",
@@ -75,16 +85,24 @@ Format your response as bullet points with specific recommendations.`,
       alt: "Color contrast improvement",
     },
     content: {
-      prompt: `You are an accessibility specialist. Given these hex color values:
+      prompt: `You are an accessibility specialist (WCAG 2.1). Analyze the following color palette for contrast and usability.
 
+## Color values
 {{colorValues}}
 
-Analyze:
-1. Contrast ratios for text on background (WCAG AA/AAA)
-2. Color blindness considerations
-3. Suggested alternative values if needed
+## Analysis requirements
+1. **Contrast ratios** — For each text-on-background pair (normal and large text), calculate ratio. Mark WCAG AA (4.5:1 / 3:1) and AAA (7:1 / 4.5:1) pass/fail.
 
-Provide a table with: color pair, ratio, pass/fail, recommendation.`,
+2. **Color blindness** — Note any pairs that may be indistinguishable for deuteranopia/protanopia. Flag red-green or similar-hue combinations.
+
+3. **Recommendations** — If a pair fails, suggest the nearest passing alternative (adjust lightness, not hue) with hex value.
+
+## Output format
+| Foreground | Background | Ratio | AA | AAA | Notes |
+|------------|------------|-------|----|-----|-------|
+(Fill for each pair)
+
+Then a short "Key findings" section with 2–4 bullet points.`,
     },
     runtime: {
       interactionMode: "interactive",
@@ -126,17 +144,24 @@ Provide a table with: color pair, ratio, pass/fail, recommendation.`,
       alt: "Spacing audit output",
     },
     content: {
-      prompt: `Analyze this layout/spacing specification:
+      prompt: `You are a design systems specialist. Audit the following layout and spacing for consistency and token alignment.
 
+## Input
 {{layoutSpec}}
 
-Check:
-1. Consistency with 4/8px grid
-2. Token usage (if provided)
-3. Rhythm and visual hierarchy
-4. Edge cases and outliers
+## Audit criteria
+1. **Grid alignment** — Are values on a 4px or 8px base? List any off-grid values (e.g., 6px, 10px, 14px) and suggest nearest token.
 
-Output as a structured report with pass/fail per section.`,
+2. **Token usage** — If tokens are provided: are they used consistently? If not: propose a token scale (e.g., space-1 through space-12) that matches the current usage.
+
+3. **Rhythm and hierarchy** — How do spacing values create visual rhythm? Are there clear jumps (e.g., 8→16→24) or too many similar values?
+
+4. **Edge cases** — Modal padding, card gaps, list spacing — any outliers or inconsistencies?
+
+## Output format
+- **Summary** (2–3 sentences)
+- **Pass/fail** per section with brief rationale
+- **Recommendations** — Prioritized list of changes (high impact first)`,
     },
     runtime: {
       interactionMode: "interactive",
@@ -150,6 +175,11 @@ Output as a structured report with pass/fail per section.`,
         ],
       },
       defaultInputs: { layoutSpec: "" },
+      presets: [
+        { id: "card-grid", label: "Card grid", inputs: { layoutSpec: "Card grid: 3 columns, 24px gap. Cards: 16px padding, 8px between title and body. Mobile: 1 column, 16px gap." } },
+        { id: "form-layout", label: "Form layout", inputs: { layoutSpec: "Form: 2-column on desktop, 1 on mobile. Label-input gap: 8px. Between fields: 24px. Section spacing: 32px." } },
+        { id: "header-nav", label: "Header/nav", inputs: { layoutSpec: "Header: 64px height, 24px horizontal padding. Nav items: 8px gap. Logo-text gap: 16px." } },
+      ],
     },
     useCases: ["Design system audit", "Handoff review", "QA"],
     testedWith: ["Claude 3.5", "GPT-4"],
@@ -302,13 +332,24 @@ Format for handoff to animator or Lottie creator.`,
     previewType: "critique",
     preview: { src: "/previews/ui-ux.svg", alt: "Typography critique output" },
     content: {
-      prompt: `Analyze this typography specification or screenshot. Evaluate:
-1. Type scale consistency (h1–h6, body, caption)
-2. Line height and letter spacing
-3. Readability and contrast
-4. Hierarchy clarity
+      prompt: `You are a typography and readability specialist. Audit the following typography specification or description.
 
-Output as bullet-point recommendations.`,
+## Input
+{{typographySpec}}
+
+## Evaluation criteria
+1. **Type scale** — Is there a clear, consistent scale (e.g., 12/14/16/20/24/32)? Are h1–h6, body, caption, and overline defined? Any orphan sizes?
+
+2. **Line height & letter spacing** — Are line heights appropriate (1.2–1.5 for headings, 1.4–1.6 for body)? Any tracking issues (too tight/loose)?
+
+3. **Readability** — Font choices for long-form vs UI? Contrast with background? Minimum 16px for body on web?
+
+4. **Hierarchy** — Can you distinguish headings from body at a glance? Is the scale jump (e.g., 1.25 or 1.333) consistent?
+
+## Output format
+- **Summary** — 1–2 sentences
+- **Findings** — Bullet points with specific issues
+- **Recommendations** — Concrete fixes (e.g., "Set body line-height to 1.5")`,
     },
     useCases: ["Design system", "Content audit", "Accessibility"],
     testedWith: ["Claude 3.5"],
@@ -326,13 +367,24 @@ Output as bullet-point recommendations.`,
     previewType: "critique",
     preview: { src: "/previews/ui-ux.svg", alt: "Layout audit output" },
     content: {
-      prompt: `Analyze this layout/screenshot. Check:
-1. Grid alignment and consistency
-2. Visual balance and whitespace
-3. Content hierarchy
-4. Responsive considerations
+      prompt: `You are a UI/UX designer specializing in layout and composition. Audit the following layout description or screenshot.
 
-Provide structured feedback with specific fixes.`,
+## Input
+{{layoutDescription}}
+
+## Audit criteria
+1. **Grid alignment** — Is content aligned to a consistent grid? Are columns and gutters consistent? Any misaligned elements?
+
+2. **Visual balance** — Is whitespace distributed well? Any cramped or overly sparse areas? Does the layout feel balanced (symmetry or intentional asymmetry)?
+
+3. **Content hierarchy** — Does the layout guide the eye correctly? Is the most important content visually dominant? Any competing focal points?
+
+4. **Responsive considerations** — How would this reflow at 768px and 375px? Are there fixed widths that would break? Touch target sizes (min 44px)?
+
+## Output format
+- **Overall** — Pass / Needs work / Fail + 1 sentence
+- **Findings** — Bullet points with specific locations (e.g., "Card grid: 3rd card misaligned")
+- **Fixes** — Actionable recommendations in priority order`,
     },
     useCases: ["Pre-handoff", "Design review", "QA"],
     testedWith: ["Claude 3.5", "GPT-4"],
@@ -350,15 +402,26 @@ Provide structured feedback with specific fixes.`,
     previewType: "structured",
     preview: { src: "/previews/ui-ux.svg", alt: "Component naming output" },
     content: {
-      prompt: `Given this component description: {{description}}
+      prompt: `You are a design system architect. Suggest component naming following BEM-inspired and React conventions.
 
-Suggest naming following best practices:
-1. Primary name (PascalCase)
-2. Variants (e.g. size, state)
-3. Slot names for composition
-4. Alternative names if ambiguous
+## Component description
+{{description}}
 
-Format as a naming table.`,
+## Naming requirements
+1. **Primary name** — PascalCase, descriptive (e.g., Button, Card, Modal). Avoid generic names (Box, Item) unless it's a primitive.
+
+2. **Variants** — Use consistent suffix or prop-style: size (sm, md, lg), state (default, hover, active), intent (primary, secondary). Format as: ComponentName--variant or componentNameVariant.
+
+3. **Slot names** — For composition (header, body, footer, icon, label). Use lowercase, hyphenated if multi-word.
+
+4. **Alternatives** — If the description is ambiguous, suggest 2–3 naming options with pros/cons.
+
+## Output format
+| Element | Name | Notes |
+|---------|------|-------|
+(Populate for each)
+
+Include a brief rationale for the primary name choice.`,
     },
     useCases: ["Design system", "Handoff", "Developer handoff"],
     testedWith: ["Claude 3.5"],
@@ -376,13 +439,24 @@ Format as a naming table.`,
     previewType: "critique",
     preview: { src: "/previews/ui-ux.svg", alt: "Form critique output" },
     content: {
-      prompt: `Analyze this form design. Evaluate:
-1. Field order and grouping
-2. Label and placeholder clarity
-3. Error state handling
-4. CTA placement and copy
+      prompt: `You are a form UX specialist focused on conversion and usability. Audit the following form design.
 
-Provide actionable recommendations.`,
+## Input
+{{formDescription}}
+
+## Evaluation criteria
+1. **Field order & grouping** — Is the flow logical (e.g., name before email)? Are related fields grouped (shipping vs billing)? Any unnecessary steps?
+
+2. **Labels & placeholders** — Are labels visible (not placeholder-only)? Is placeholder text helpful? Any ambiguous labels (e.g., "Name" vs "Full name")?
+
+3. **Error handling** — Inline vs summary errors? Clear, actionable messages? Error state visible (color + icon)? Validation timing (on blur vs submit)?
+
+4. **CTA placement & copy** — Is the submit button above the fold on mobile? Is the copy action-oriented ("Create account" vs "Submit")? Secondary actions (Cancel, Back) appropriately de-emphasized?
+
+## Output format
+- **Conversion risks** — Top 3 issues that may hurt completion rate
+- **Usability issues** — Bullet list with severity (high/medium/low)
+- **Recommendations** — Specific, actionable fixes`,
     },
     useCases: ["Conversion optimization", "Usability review"],
     testedWith: ["Claude 3.5"],
@@ -740,15 +814,24 @@ Include compression, resolution, color profile.`,
     previewType: "structured",
     preview: { src: "/previews/systems-critique.svg", alt: "Token audit" },
     content: {
-      prompt: `Token structure: {{tokens}}
+      prompt: `You are a design tokens architect. Audit the following token structure for consistency, scalability, and best practices.
 
-Audit for:
-1. Naming consistency
-2. Scale alignment (spacing, type)
-3. Semantic vs primitive balance
-4. Gaps and redundancies
+## Token structure
+{{tokens}}
 
-Output as structured report.`,
+## Audit criteria
+1. **Naming consistency** — Follow a convention (e.g., category-scale-step: color-neutral-500, spacing-4)? Any outliers? camelCase vs kebab-case?
+
+2. **Scale alignment** — Do spacing tokens follow a scale (4, 8, 12, 16...)? Type scale (modular or linear)? Are there arbitrary values that should be tokens?
+
+3. **Semantic vs primitive** — Is there a clear split? Primitives (gray-500) vs semantics (text-primary, bg-surface)? Are semantics mapped to primitives correctly?
+
+4. **Gaps & redundancies** — Missing tokens (e.g., no focus ring)? Duplicate or near-duplicate values? Unused tokens?
+
+## Output format
+- **Score** (1–5) per category with brief justification
+- **Critical issues** — Must-fix list
+- **Recommendations** — Prioritized improvements`,
     },
     useCases: ["Design system", "Token migration"],
     testedWith: ["Claude 3.5"],
@@ -766,14 +849,27 @@ Output as structured report.`,
     previewType: "critique",
     preview: { src: "/previews/systems-critique.svg", alt: "Component audit" },
     content: {
-      prompt: `Component inventory: {{inventory}}
-Screens: {{screens}}
+      prompt: `You are a design system lead. Audit component usage for consistency and consolidation opportunities.
 
-Analyze:
-1. Duplicate patterns (same need, different component)
-2. Inconsistent variants
-3. Missing components
-4. Standardization recommendations`,
+## Component inventory
+{{inventory}}
+
+## Screens / usage context
+{{screens}}
+
+## Analysis
+1. **Duplicate patterns** — Identify components that solve the same need (e.g., Card vs Panel vs Tile). Map overlaps and suggest consolidation.
+
+2. **Inconsistent variants** — Same component used with different props/APIs across screens? (e.g., Button with size="sm" vs size="small"). List inconsistencies.
+
+3. **Missing components** — Patterns used repeatedly but not formalized? (e.g., empty states, loading skeletons). Recommend net-new components.
+
+4. **Standardization** — Which components should be deprecated in favor of others? Migration path (low/medium/high effort)?
+
+## Output format
+- **Executive summary** — 2–3 sentences
+- **Duplicate matrix** — Component A vs B: overlap, recommendation
+- **Action plan** — Prioritized list (quick wins first)`,
     },
     useCases: ["Design system", "Consolidation"],
     testedWith: ["Claude 3.5"],
@@ -791,15 +887,35 @@ Analyze:
     previewType: "structured",
     preview: { src: "/previews/systems-critique.svg", alt: "A11y checklist" },
     content: {
-      prompt: `Screen/component: {{description}}
+      prompt: `You are an accessibility specialist (WCAG 2.1 AA). Generate a focused audit checklist for the following screen or component.
 
-Generate WCAG 2.1 AA checklist:
-1. Perceivable (contrast, alt, etc.)
-2. Operable (keyboard, focus)
-3. Understandable (labels, errors)
-4. Robust (semantics, ARIA)
+## Screen/component description
+{{description}}
 
-Format as checkable items with pass/fail criteria.`,
+## Checklist structure (WCAG 2.1 AA)
+
+**Perceivable**
+- Color contrast: 4.5:1 normal text, 3:1 large text
+- Non-text content: alt text for images, labels for icons
+- Adaptable: content reflows, no information lost
+- Distinguishable: focus visible, no color-only cues
+
+**Operable**
+- Keyboard: all functionality available, no trap
+- Enough time: no auto-advance without control
+- Seizures: no flashing >3 per second
+- Navigable: skip links, headings, focus order
+
+**Understandable**
+- Readable: language set, no jargon without explanation
+- Predictable: no context change on focus
+- Input assistance: labels, errors, help text
+
+**Robust**
+- Compatible: valid HTML, ARIA when needed, roles correct
+
+## Output format
+For each item: [ ] Checkbox | Criterion | Pass/fail criteria | How to test`,
     },
     useCases: ["A11y audit", "Pre-launch", "Compliance"],
     testedWith: ["Claude 3.5"],
@@ -817,16 +933,41 @@ Format as checkable items with pass/fail criteria.`,
     previewType: "structured",
     preview: { src: "/previews/systems-critique.svg", alt: "Handoff checklist" },
     content: {
-      prompt: `Handoff context: {{context}}
+      prompt: `You are a design-to-dev handoff specialist. Generate a review checklist to ensure complete, developer-ready delivery.
 
-Generate checklist:
-1. Assets (exports, naming)
-2. Specs (spacing, type, colors)
-3. States (hover, focus, error)
-4. Responsive breakpoints
-5. Edge cases
+## Handoff context
+{{context}}
 
-Format as pass/fail items.`,
+## Checklist categories
+
+**1. Assets**
+- Exports: correct format (SVG, PNG @1x/2x), naming convention
+- Icons: consistent stroke, size variants
+- Images: optimized, alt text provided
+
+**2. Specs**
+- Spacing: values or tokens, not "about 8px"
+- Typography: font, size, weight, line-height
+- Colors: hex/token, not "blue"
+- Borders, radius, shadows: explicit values
+
+**3. States**
+- Default, hover, focus, active, disabled
+- Error, loading, empty
+- All states documented or designed
+
+**4. Responsive**
+- Breakpoints defined
+- Behavior at each breakpoint (stack, hide, resize)
+- Touch targets ≥44px on mobile
+
+**5. Edge cases**
+- Long text, empty state, max items
+- Loading, error, permission denied
+
+## Output format
+[ ] Item | Category | Notes
+Prioritize: P0 (blocking) / P1 (should have) / P2 (nice to have)`,
     },
     useCases: ["Handoff", "QA", "Developer handoff"],
     testedWith: ["Claude 3.5"],
@@ -844,16 +985,26 @@ Format as pass/fail items.`,
     previewType: "critique",
     preview: { src: "/previews/systems-critique.svg", alt: "Icon audit" },
     content: {
-      prompt: `Icon set: {{iconSet}}
+      prompt: `You are an icon system specialist. Audit the following icon set for consistency and completeness.
 
-Audit:
-1. Stroke weight consistency
-2. Size variants
-3. Naming convention
-4. Coverage gaps
-5. Duplicate/similar icons
+## Icon set description
+{{iconSet}}
 
-Output as recommendations.`,
+## Audit criteria
+1. **Stroke weight** — Consistent across set (e.g., 1.5px or 2px)? Any icons that feel heavier/lighter? Recommend standard.
+
+2. **Size variants** — 16, 20, 24px? Are icons designed for each size or scaled? Pixel-grid alignment at small sizes?
+
+3. **Naming convention** — Consistent? (e.g., icon-name, IconName, name-outline). Searchable? Avoid abbreviations unless standard (info, warn, err).
+
+4. **Coverage gaps** — Missing common actions (edit, delete, share, settings)? Industry-specific needs? Suggest 5–10 additions.
+
+5. **Duplicates & similar** — Icons that are too similar (check vs check-circle)? Redundant (arrow-right vs chevron-right)? Consolidation recommendations.
+
+## Output format
+- **Summary score** (1–5) with rationale
+- **Critical issues** — Must-fix
+- **Recommendations** — Prioritized list`,
     },
     useCases: ["Icon libraries", "Design systems"],
     testedWith: ["Claude 3.5"],
@@ -871,16 +1022,27 @@ Output as recommendations.`,
     previewType: "critique",
     preview: { src: "/previews/systems-critique.svg", alt: "Responsive audit" },
     content: {
-      prompt: `Breakpoints: {{breakpoints}}
-Layouts: {{layouts}}
+      prompt: `You are a responsive design specialist. Audit the following breakpoints and layouts for consistency and mobile usability.
 
-Audit:
-1. Breakpoint logic
-2. Content reflow
-3. Touch targets (mobile)
-4. Consistency across views
+## Breakpoints
+{{breakpoints}}
 
-Output as structured feedback.`,
+## Layouts (per breakpoint)
+{{layouts}}
+
+## Audit criteria
+1. **Breakpoint logic** — Are breakpoints based on content or device? Common values (375, 768, 1024, 1280)? Any odd gaps (e.g., 900px only)? Mobile-first or desktop-first?
+
+2. **Content reflow** — How does layout change between breakpoints? Single-column on mobile? Grid collapse (3→2→1)? Any horizontal scroll? Images/videos responsive?
+
+3. **Touch targets** — Buttons/links ≥44×44px on mobile? Adequate spacing between tappable elements? Thumb-zone consideration for one-handed use?
+
+4. **Consistency** — Same component behaves similarly across breakpoints? Navigation pattern (hamburger vs tabs) consistent? No orphan breakpoints (one screen at 900px, rest at 768/1024)?
+
+## Output format
+- **Overall** — Pass / Needs work / Fail
+- **Breakpoint assessment** — Per breakpoint: strengths, issues
+- **Recommendations** — Prioritized fixes`,
     },
     useCases: ["Responsive review", "Mobile QA"],
     testedWith: ["Claude 3.5"],
@@ -898,16 +1060,42 @@ Output as structured feedback.`,
     previewType: "structured",
     preview: { src: "/previews/systems-critique.svg", alt: "Health check" },
     content: {
-      prompt: `Design system context: {{context}}
+      prompt: `You are a design system maturity assessor. Evaluate the following design system and provide a health score with actionable recommendations.
 
-Assess across:
-1. Documentation (completeness, clarity)
-2. Component coverage
-3. Token structure
-4. Governance (contribution, versioning)
-5. Adoption metrics
+## Design system context
+{{context}}
 
-Output as score + recommendations per area.`,
+## Assessment framework
+
+**1. Documentation (1–5)**
+- Completeness: usage, props, examples, do's/don'ts
+- Clarity: can a new designer/dev use it without asking?
+- Discoverability: structure, search, onboarding
+
+**2. Component coverage (1–5)**
+- Core UI: buttons, inputs, forms, navigation
+- Patterns: cards, modals, tables, empty states
+- Gaps: what's missing for common use cases?
+
+**3. Token structure (1–5)**
+- Primitives vs semantics
+- Scale consistency (spacing, type, color)
+- Theming support
+
+**4. Governance (1–5)**
+- Contribution model: who can add? process?
+- Versioning: semantic? changelog?
+- Deprecation: how are old components retired?
+
+**5. Adoption (1–5)**
+- Usage metrics (if available)
+- Barriers to adoption
+- Migration path from legacy
+
+## Output format
+- **Overall score** (average) + maturity stage (Emerging / Growing / Mature / Scaling)
+- **Per area**: score, 2–3 strengths, 2–3 improvements
+- **Top 5 priorities** — Ranked recommendations`,
     },
     useCases: ["System maturity", "Roadmap planning"],
     testedWith: ["Claude 3.5"],

@@ -22,6 +22,21 @@ function getToolContent(tool: Tool): string {
   );
 }
 
+const PLACEHOLDER_LABELS: Record<string, string> = {
+  interfaceDescription: "Screenshot or interface description",
+  typographySpec: "Typography spec or screenshot description",
+  layoutDescription: "Layout or screenshot description",
+  formDescription: "Form design or screenshot description",
+  description: "Component or item description",
+  tokens: "Token structure (paste JSON or list)",
+  inventory: "Component inventory",
+  screens: "Screens or usage context",
+  context: "Context or brief",
+  iconSet: "Icon set description",
+  breakpoints: "Breakpoints (e.g. 375, 768, 1024)",
+  layouts: "Layout behavior per breakpoint",
+};
+
 export function PromptConfigurator({ tool }: PromptConfiguratorProps) {
   const content = getToolContent(tool);
   const placeholders = extractPlaceholders(content);
@@ -61,6 +76,15 @@ export function PromptConfigurator({ tool }: PromptConfiguratorProps) {
     setInputs((prev) => ({ ...prev, [key]: value }));
   }, []);
 
+  const handleReset = useCallback(() => {
+    const defaults: Record<string, string> = {};
+    placeholders.forEach((k) => {
+      defaults[k] = "";
+    });
+    setInputs(defaults);
+    saveToolState(tool.slug, defaults);
+  }, [tool.slug, placeholders]);
+
   const filledPrompt = buildPromptFromTemplate(tool, inputs);
   const hasPlaceholders = filledPrompt.includes("{{");
 
@@ -79,14 +103,23 @@ export function PromptConfigurator({ tool }: PromptConfiguratorProps) {
     <div className="space-y-6">
       <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
         <aside className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 dark:bg-[var(--color-surface-elevated)]">
-          <h3 className="mb-4 text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-            Configure
-          </h3>
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+              Configure
+            </h3>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="text-xs text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300"
+            >
+              Reset
+            </button>
+          </div>
           <div className="space-y-4">
             {placeholders.map((key) => (
               <div key={key}>
                 <label className="mb-1.5 block text-xs font-medium text-neutral-500 dark:text-neutral-400">
-                  {key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase())}
+                  {PLACEHOLDER_LABELS[key] ?? key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase())}
                 </label>
                 <textarea
                   value={inputs[key] ?? ""}
