@@ -53,7 +53,7 @@ export function ExploreToolsGrid({ tools }: ExploreToolsGridProps) {
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="columns-2 gap-6 lg:columns-3 [&>*]:mb-6 [&>*]:break-inside-avoid">
       {filteredTools.map((tool) => (
         <ToolCard key={tool.slug} tool={tool} />
       ))}

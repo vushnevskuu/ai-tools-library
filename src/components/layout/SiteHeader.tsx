@@ -41,6 +41,12 @@ export function SiteHeader() {
             Explore
           </Link>
           <Link
+            href="/builders"
+            className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+          >
+            Builders
+          </Link>
+          <Link
             href="/about"
             className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
           >

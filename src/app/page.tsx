@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { ToolCard } from "@/components/cards/ToolCard";
 import { CategoryCard } from "@/components/cards/CategoryCard";
@@ -34,6 +35,50 @@ export default function HomePage() {
           className="mt-8 inline-flex items-center rounded-md bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-300"
         >
           Explore tools
+        </Link>
+      </section>
+
+      {/* Builders */}
+      <section className="py-12">
+        <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+          Builders
+        </h2>
+        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+          Interactive utilities for daily design work
+        </p>
+        <Link
+          href="/builders/design-system"
+          className="mt-6 block overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm transition-all duration-[var(--transition-base)] hover:border-[var(--color-border-strong)] hover:shadow-lg dark:bg-[var(--color-surface-elevated)]"
+        >
+          <div className="relative aspect-[21/9] overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+            <Image
+              src="/previews/design-system-builder.svg"
+              alt="Design System Builder"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 80vw"
+              priority
+            />
+          </div>
+          <div className="flex flex-col gap-2 p-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
+                Design System Builder
+              </h3>
+              <p className="mt-0.5 text-sm text-neutral-500 dark:text-neutral-400">
+                Create tokens, export JSON, CSS, Tailwind — one source of truth.
+              </p>
+            </div>
+            <span className="mt-4 inline-flex items-center text-sm font-medium text-neutral-600 sm:mt-0 dark:text-neutral-400">
+              Open Design System Builder →
+            </span>
+          </div>
+        </Link>
+        <Link
+          href="/builders"
+          className="mt-4 inline-block text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+        >
+          View all builders →
         </Link>
       </section>
 

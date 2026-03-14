@@ -18,6 +18,12 @@ export function SiteFooter() {
               Explore
             </Link>
             <Link
+              href="/builders"
+              className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text)]"
+            >
+              Builders
+            </Link>
+            <Link
               href="/about"
               className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text)]"
             >
