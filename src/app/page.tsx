@@ -2,21 +2,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { ToolCard } from "@/components/cards/ToolCard";
-import { CategoryCard } from "@/components/cards/CategoryCard";
 import { CollectionCard } from "@/components/cards/CollectionCard";
-import { getAllTools, getAllCollections } from "@/lib/data";
-import { FIELDS } from "@/types";
+import { getAllTools, getToolsBySlugs, getAllCollections } from "@/lib/data";
+import {
+  HOMEPAGE_CORE_TOOL_SLUGS,
+  HOMEPAGE_COLLECTION_SLUGS,
+} from "@/config/homepage";
 
 export default function HomePage() {
-  const tools = getAllTools();
-  const featuredTools = tools.slice(0, 6);
-
-  const toolCountByField = FIELDS.reduce(
-    (acc, field) => {
-      acc[field] = tools.filter((t) => t.field === field).length;
-      return acc;
-    },
-    {} as Record<string, number>
+  const allTools = getAllTools();
+  const coreTools = getToolsBySlugs([...HOMEPAGE_CORE_TOOL_SLUGS]);
+  const allCollections = getAllCollections();
+  const featuredCollectionSlugs = new Set<string>([...HOMEPAGE_COLLECTION_SLUGS]);
+  const featuredCollections = allCollections.filter((c) =>
+    featuredCollectionSlugs.has(c.slug)
   );
 
   return (
@@ -27,34 +26,34 @@ export default function HomePage() {
           AI tools for designers
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400">
-          A free, visual-first library of prompts, agents, and templates — plus interactive builders for real design outputs.
+          A curated library of prompts and templates — plus an interactive builder for design tokens.
         </p>
         <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-          Not a prompt archive. Effect first, use case second, copy or export third.
+          Effect first. Copy or export when ready.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
           <Link
-            href="/explore"
+            href="/builders/design-system"
             className="inline-flex items-center rounded-md bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-300"
           >
-            Explore tools
+            Open Design System Builder
           </Link>
           <Link
-            href="/builders/design-system"
+            href="/explore"
             className="inline-flex items-center rounded-md border border-neutral-300 px-6 py-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 dark:border-neutral-600 dark:text-neutral-300 dark:hover:bg-neutral-800"
           >
-            Open Design System Builder
+            Explore the library
           </Link>
         </div>
       </section>
 
-      {/* Builders — core product */}
+      {/* Builder spotlight */}
       <section className="py-12">
         <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-          Builders
+          Builder
         </h2>
         <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-          Interactive utilities for daily design work. Edit tokens, preview live, export JSON, CSS, Tailwind, or Tokens Studio.
+          Interactive token editor. Colors, typography, spacing, radius, shadows. Export JSON, CSS, Tailwind, or Tokens Studio.
         </p>
         <Link
           href="/builders/design-system"
@@ -76,7 +75,7 @@ export default function HomePage() {
                 Design System Builder
               </h3>
               <p className="mt-0.5 text-sm text-neutral-500 dark:text-neutral-400">
-                Full token system: colors, typography, spacing, radius, shadows, borders, motion. Semantic tokens, component previews, multiple export formats.
+                Full token system with semantic layers, component previews, and multiple export formats.
               </p>
             </div>
             <span className="mt-4 inline-flex items-center rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white sm:mt-0 dark:bg-neutral-100 dark:text-neutral-900">
@@ -84,66 +83,53 @@ export default function HomePage() {
             </span>
           </div>
         </Link>
-        <Link
-          href="/builders"
-          className="mt-4 inline-block text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
-        >
-          View all builders →
-        </Link>
       </section>
 
-      {/* Featured tools */}
+      {/* Core tools */}
       <section className="py-12">
         <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-          Featured tools
+          Core tools
         </h2>
         <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-          Start with these daily-use assets
+          A focused set of high-utility AI tools for design work.
         </p>
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredTools.map((tool) => (
+          {coreTools.map((tool) => (
             <ToolCard key={tool.slug} tool={tool} />
           ))}
         </div>
-        <Link
-          href="/explore"
-          className="mt-8 inline-block text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
-        >
-          View all tools →
-        </Link>
       </section>
 
-      {/* Browse by field */}
+      {/* Selected collections */}
       <section className="py-12">
         <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-          Browse by field
+          Selected collections
         </h2>
         <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-          Find tools by design discipline
+          Curated sets for everyday workflows.
         </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {FIELDS.map((slug) => (
-            <CategoryCard
-              key={slug}
-              slug={slug}
-              toolCount={toolCountByField[slug] ?? 0}
-            />
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featuredCollections.map((collection) => (
+            <CollectionCard key={collection.slug} collection={collection} />
           ))}
         </div>
       </section>
 
-      {/* Collections */}
-      <section className="py-12">
-        <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-          Collections
-        </h2>
-        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-          Curated groupings for specific workflows
-        </p>
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {getAllCollections().map((collection) => (
-            <CollectionCard key={collection.slug} collection={collection} />
-          ))}
+      {/* Library CTA */}
+      <section className="py-16 sm:py-20">
+        <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-10 text-center dark:bg-[var(--color-surface-elevated)] sm:px-12">
+          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+            Explore the full library
+          </h2>
+          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+            View all {allTools.length} tools — prompts, templates, and workflows.
+          </p>
+          <Link
+            href="/explore"
+            className="mt-6 inline-flex items-center rounded-md bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-300"
+          >
+            View all {allTools.length} tools
+          </Link>
         </div>
       </section>
     </PageContainer>
